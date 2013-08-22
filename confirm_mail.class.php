@@ -44,7 +44,7 @@ class ConfirmMail
 		$now = time();
 		$random = substr( base_convert( md5( uniqid() ), 16, 36 ), 0, 20 );
 
-		if( !preg_match( '/^([\w\.-])+@([\w-])+\.([\w\.-])+$/m', $to ) || 
+		if( !preg_match( '/^([\w.!#$%&\'*+\\/=?^`{|}~-])+@([\w-])+\.([\w\.-])+$/m', $to ) || 
 				preg_match( '/\n/m', $to ) )
 		{
 			return -1;
