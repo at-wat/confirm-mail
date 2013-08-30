@@ -39,7 +39,7 @@ class ConfirmMail
 		$this->timeout		= $timeout;
 	}
 
-	public function confirm( $action, $to, $key, $subject, $header, $footer )
+	public function confirm( $action, $to, $key, $subject, $header, $footer, $url_opt = '' )
 	{
 		$now = time();
 		$random = substr( base_convert( md5( uniqid() ), 16, 36 ), 0, 20 );
@@ -88,8 +88,9 @@ class ConfirmMail
 			'From: ' . $this->admin_mail . "\n" .
 			'Reply-To: ' . $this->admin_mail . "\n" .
 			'X-Mailer: PHP/' . phpversion();
+		if( $url_opt !== '' ) $url_opt = $url_opt . '&';
 		$message = $header .
-			'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME'] . '?confirm=' . $random . $footer;
+			'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME'] . '?' . $url_opt . 'confirm=' . $random . $footer;
 		mb_language('japanese');
 		mb_internal_encoding('UTF-8');
 		$result = mb_send_mail( $to, $subject, $message, $headers, '-f ' . $this->admin_mail );
